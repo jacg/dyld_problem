@@ -34,11 +34,12 @@ let
       ls $WORKDIR
       mkdir -p $out/lib
       mv $out/lib/libWhereCompilerLeftIt.so $out/lib/libTheCLibrary.so
-      otool -L $out/lib/libWhereCompilerLeftIt.so || true
-      otool -D $out/lib/libWhereCompilerLeftIt.so || true
-      install_name_tool -id $out/lib/libTheCLibrary.so $out/lib/libWhereCompilerLeftIt.so || echo "This ain't no stinkin' Mac"
-      otool -L $out/lib/libWhereCompilerLeftIt.so || true
-      otool -D $out/lib/libWhereCompilerLeftIt.so || true
+      cd $out/lib
+      otool -L libTheCLibrary.so || true
+      otool -D libTheCLibrary.so || true
+      install_name_tool -id $out/lib/libTheCLibrary.so $out/lib/libTheCLibrary.so || true
+      otool -L libTheCLibrary.so || true
+      otool -D libTheCLibrary.so || true
     '';
   };
 
