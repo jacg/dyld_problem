@@ -33,6 +33,7 @@ let
       echo "ls $WORKDIR":
       ls $WORKDIR
       mv $out/lib/libWhereCompilerLeftIt.so $out/lib/libTheCLibrary.so
+      install_name_tool -id $out/lib/libTheCLibrary.so $out/lib/libWhereCompilerLeftIt.so || echo "This ain't no stinkin' Mac"
     '';
   };
 
