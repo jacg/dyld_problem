@@ -24,7 +24,6 @@ let
       echo "ls $WORKDIR":
       ls $WORKDIR
     	${pkgs.clang_9}/bin/clang++ -fpic -c -O2 -pg the_C_source_file.cc      -o the_object_file.o
-      mkdir -p $out/lib
 	    ${pkgs.clang_9}/bin/clang++ -shared -o $out/lib/libWhereCompilerLeftIt.so the_object_file.o
     '';
 
@@ -32,8 +31,13 @@ let
       echo "-----WORKDIR-----> $WORKDIR"
       echo "ls $WORKDIR":
       ls $WORKDIR
+      mkdir -p $out/lib
       mv $out/lib/libWhereCompilerLeftIt.so $out/lib/libTheCLibrary.so
+      otool -L $out/lib/libWhereCompilerLeftIt.so || true
+      otool -D $out/lib/libWhereCompilerLeftIt.so || true
       install_name_tool -id $out/lib/libTheCLibrary.so $out/lib/libWhereCompilerLeftIt.so || echo "This ain't no stinkin' Mac"
+      otool -L $out/lib/libWhereCompilerLeftIt.so || true
+      otool -D $out/lib/libWhereCompilerLeftIt.so || true
     '';
   };
 
