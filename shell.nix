@@ -24,6 +24,7 @@ let
       echo "ls $WORKDIR":
       ls $WORKDIR
     	${pkgs.clang_9}/bin/clang++ -fpic -c -O2 -pg the_C_source_file.cc      -o the_object_file.o
+      mkdir -p $out/lib
 	    ${pkgs.clang_9}/bin/clang++ -shared -o $out/lib/libWhereCompilerLeftIt.so the_object_file.o
     '';
 
