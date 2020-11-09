@@ -15,7 +15,7 @@ let
   # ----- A C library -------------------------------------------------------------
   the-c-library-being-wrapped = pkgs.stdenv.mkDerivation {
     name = "the-c-library";
-    version = "64";
+    version = "65";
     src = ./the-c-source;
 
     buildPhase = ''
@@ -23,7 +23,9 @@ let
       echo "-----WORKDIR-----> $WORKDIR"
       echo "ls $WORKDIR":
       ls $WORKDIR
-      CXX=${pkgs.clang_9}/bin/clang++ make
+    	${pkgs.clang_9}/bin/clang++ -fpic -c -O2 -pg $WORKDIR/the_C_source_file.cc  -o $WORKDIR/the_object_file.o
+      mkdir -p $out/lib
+	    ${pkgs.clang_9}/bin/clang++ -shared -o     $out/lib/libTheCLibrary.so          $WORKDIR/the_object_file.o
     '';
 
     installPhase = ''
@@ -31,7 +33,7 @@ let
       echo "ls $WORKDIR":
       ls $WORKDIR
       mkdir -p $out/lib
-      mv libTheCLibrary.so $out/lib/
+      #mv libTheCLibrary.so $out/lib/
     '';
   };
 
