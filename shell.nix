@@ -19,17 +19,11 @@ let
     src = ./the-c-source;
 
     buildPhase = ''
-      export WORKDIR=`pwd`
-      echo "-----WORKDIR-----> $WORKDIR"
-      echo "ls $WORKDIR":
-      ls $WORKDIR
+      export $WORKDIR=`pwd`
       CXX=${pkgs.clang_9}/bin/clang++ make
     '';
 
     installPhase = ''
-      echo "-----WORKDIR-----> $WORKDIR"
-      echo "ls $WORKDIR":
-      ls $WORKDIR
       mkdir -p $out/lib
       mv libTheCLibrary.so $out/lib/
       install_name_tool -id $out/lib/libTheCLibrary.so $out/lib/libTheCLibrary.so || true
