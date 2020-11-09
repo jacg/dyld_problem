@@ -23,17 +23,16 @@ let
       echo "-----WORKDIR-----> $WORKDIR"
       echo "ls $WORKDIR":
       ls $WORKDIR
-    	${pkgs.clang_9}/bin/clang++ -fpic -c -O2 -pg $WORKDIR/the_C_source_file.cc  -o $WORKDIR/the_object_file.o
+    	${pkgs.clang_9}/bin/clang++ -fpic -c -O2 -pg the_C_source_file.cc      -o the_object_file.o
       mkdir -p $out/lib
-	    ${pkgs.clang_9}/bin/clang++ -shared -o     $out/lib/libTheCLibrary.so          $WORKDIR/the_object_file.o
+	    ${pkgs.clang_9}/bin/clang++ -shared -o $out/lib/libWhereCompilerLeftIt.so the_object_file.o
     '';
 
     installPhase = ''
       echo "-----WORKDIR-----> $WORKDIR"
       echo "ls $WORKDIR":
       ls $WORKDIR
-      mkdir -p $out/lib
-      #mv libTheCLibrary.so $out/lib/
+      mv $out/lib/libWhereCompilerLeftIt.so $out/lib/libTheCLibrary.so
     '';
   };
 
