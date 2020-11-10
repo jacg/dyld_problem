@@ -7,6 +7,7 @@ let
         https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz
       ];
     };
+  stdenv = pkgs.stdenv;
 
   # ----- Rust --------------------------------------------------------------------
   rust-stable  = pkgs.latest.rustChannels.stable .rust;
@@ -18,6 +19,8 @@ let
     version = "64";
     src = ./the-c-source;
 
+    nativeBuildInputs = stdenv.lib.optional stdenv.isDarwin [ pkgs.fixDarwinDylibNames ];
+
     buildPhase = ''
       export WORKDIR=`pwd`
       CXX=${pkgs.clang_9}/bin/clang++ make
@@ -26,10 +29,6 @@ let
     installPhase = ''
       mkdir -p $out/lib
       mv libTheCLibrary.so $out/lib/
-    '';
-
-    fixupPhase = ''
-      install_name_tool -id $out/lib/libTheCLibrary.so $out/lib/libTheCLibrary.so || true
     '';
   };
 
